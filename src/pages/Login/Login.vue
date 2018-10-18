@@ -34,7 +34,7 @@
 <style lang="stylus" rel="stylesheet/stylus">
   .back
     width: 90%
-    margin:10px auto 0
+    margin:20px auto 0
   .title
     width: 100%
     color:blueviolet

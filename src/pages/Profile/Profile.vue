@@ -23,6 +23,8 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
+  a
+    text-decoration:none
   .profilenav
     width:100%;
     padding-top:44px
