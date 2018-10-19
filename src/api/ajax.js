@@ -2,9 +2,10 @@
  * Created by sunwei on 2018/10/18.
  */
 import axios from 'axios'
+import promise from 'promise'
 
 export default function ajax(url,data={},type='GET'){
-  return new promise((resolve,reject) => {
+  return new promise(function(resolve,reject){
     let promise
     if(type==='GET'){
       let dataStr = ''
@@ -19,9 +20,9 @@ export default function ajax(url,data={},type='GET'){
     }else{
       promise = axios.post(url,data)
     }
-    promise.then(response => {
+    promise.then(function(response){
       resolve(response.data)
-    }).catch(error => {
+    }).catch(function(error){
       reject(error)
     })
   })

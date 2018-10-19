@@ -1,7 +1,7 @@
 <template>
   <header class="header">
     <slot name="left"></slot>
-    <div>{{title}}</div>
+    <div class="ellipsis">{{title}}</div>
     <slot name="right"></slot>
   </header>
 </template>
@@ -24,7 +24,7 @@
     background-color:blueviolet
     z-index :9
     div
-      width:55%
+      width:40%
       margin:0 auto;
       text-align:center
       color:#fff
