@@ -57,6 +57,23 @@
             }
           },1000)
         }
+      },
+      login(){
+        if(this.loginWay){
+          const {rightPhone,phone,code} = this
+          if(!this.rightPhone){
+            //手机号不正确
+          }else if(!/^\d{6}$/.test(code)){
+            //验证码6位数字
+          }
+        }else{
+          const {name,pwd} = this
+          if(!this.name){
+            //用户名必须指定
+          }else if(!this.pwd){
+            //密码必须指定
+          }
+        }
       }
     }
   }
