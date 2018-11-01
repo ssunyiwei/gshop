@@ -1,6 +1,6 @@
 <template>
   <section>
-    <div v-for="(shop,index) in shops" v-if="shops.length">{{shop}}</div>
+    <mt-cell :title="shop" value="说明文字" v-for="(shop,index) in shops" v-if="shops.length"></mt-cell>
     <div v-else>加载中...</div>
   </section>
 </template>
