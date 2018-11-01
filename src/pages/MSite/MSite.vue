@@ -18,6 +18,7 @@
       <h1>附近商家</h1>
       <ShopList/>
     </div>
+    <div style="padding-bottom:44px;"></div>
   </section>
 </template>
 

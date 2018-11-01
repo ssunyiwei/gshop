@@ -1,6 +1,6 @@
 <template>
   <section>
-    <mt-cell :title="shop" value="说明文字" v-for="(shop,index) in shops" v-if="shops.length"></mt-cell>
+    <div class="list" v-for="(shop,index) in shops" v-if="shops.length">{{shop}}</div>
     <div v-else>加载中...</div>
   </section>
 </template>
@@ -15,5 +15,9 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-
+  .list
+    width:100%
+    height:50px
+    line-height:50px
+    border-bottom:1px solid #d5d7dc
 </style>
