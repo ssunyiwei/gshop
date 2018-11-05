@@ -1,44 +1,55 @@
 <template>
   <section>
-    <div class="back" @click="$router.back()">返回</div>
-    <h1 class="title">硅谷外卖</h1>
-    <ul class="qiehuan">
-      <li :class="{action:loginWay}" @click="loginWay=true">短信登录</li>
-      <li :class="{action:!loginWay}" @click="loginWay=false">密码登录</li>
-    </ul>
-    <div v-if="loginWay">
-      <div class="inp">
-        <input type="number" maxlength="11" placeholder="手机号" v-model="phone">
-        <button :disabled="!(rightPhone && !computeTime)" :class="{butstyle:(rightPhone && !computeTime)}" @click="getCode">{{computeTime ? `已发送${computeTime}` : '获取验证码'}}</button>
-      </div>
-      <div class="inp">
-        <input type="number" maxlength="8" placeholder="验证码">
-      </div>
-    </div>
-    <div v-else>
-      <div class="inp">
-        <input type="tel" maxlength="11" placeholder="手机/邮箱/用户名">
-      </div>
-      <div class="inp">
-        <input type="text" maxlength="8" placeholder="密码" v-if="showPwd">
-        <input type="password" maxlength="8" placeholder="密码" v-else>
-        <div class="pwshowbtn" :class="{pwon:showPwd}" @click="showPwd=!showPwd">
-          <div :class="{right:showPwd}"></div>
+    <form @submit.prevent="login">
+      <div class="back" @click="$router.back()">返回</div>
+      <h1 class="title">硅谷外卖</h1>
+      <ul class="qiehuan">
+        <li :class="{action:loginWay}" @click="loginWay=true">短信登录</li>
+        <li :class="{action:!loginWay}" @click="loginWay=false">密码登录</li>
+      </ul>
+      <div v-if="loginWay">
+        <div class="inp">
+          <input type="number" maxlength="11" placeholder="手机号" v-model="phone">
+          <button :disabled="!(rightPhone && !computeTime)" :class="{butstyle:(rightPhone && !computeTime)}" @click.prevent="getCode">{{computeTime ? `已发送${computeTime}` : '获取验证码'}}</button>
+        </div>
+        <div class="inp">
+          <input type="number" maxlength="8" placeholder="验证码" v-model="code">
         </div>
       </div>
-    </div>
-    <div class="login">登 录</div>
+      <div v-else>
+        <div class="inp">
+          <input type="tel" maxlength="11" placeholder="手机/邮箱/用户名" v-model="name">
+        </div>
+        <div class="inp">
+          <input type="text" maxlength="8" placeholder="密码" v-if="showPwd" v-model="pwd">
+          <input type="password" maxlength="8" placeholder="密码" v-model="pwd" v-else>
+          <div class="pwshowbtn" :class="{pwon:showPwd}" @click="showPwd=!showPwd">
+            <div :class="{right:showPwd}"></div>
+          </div>
+        </div>
+      </div>
+      <div class="login">
+        <mt-button type="primary" size="large">登 录</mt-button>
+      </div>
+    </form>
   </section>
 </template>
 
 <script type="text/ecmascript-6">
+  import { MessageBox } from 'mint-ui'
+
   export default {
     data(){
       return {
         loginWay:true,
         computeTime:0,
+        showPwd:false,
         phone:'',
-        showPwd:false
+        code:'',
+        name:'',
+        pwd:'',
+        alertText:'',
+        alertShow:false
       }
     },
     computed:{
@@ -62,16 +73,16 @@
         if(this.loginWay){
           const {rightPhone,phone,code} = this
           if(!this.rightPhone){
-            //手机号不正确
+            MessageBox('提示', '手机号不正确')
           }else if(!/^\d{6}$/.test(code)){
-            //验证码6位数字
+            MessageBox('提示', '验证码6位数字')
           }
         }else{
           const {name,pwd} = this
           if(!this.name){
-            //用户名必须指定
+            MessageBox('提示', '用户名必须指定')
           }else if(!this.pwd){
-            //密码必须指定
+            MessageBox('提示', '密码必须指定')
           }
         }
       }
@@ -133,11 +144,6 @@
     .pwon
       background-color:blueviolet
   .login
-    line-height:44px
-    background-color:blueviolet
     margin:50px auto 0
-    text-align :center
-    border-radius:4px
-    color:#fff
     width: 80%
 </style>
