@@ -4,16 +4,16 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store'
-import MintUI from 'mint-ui'
-import 'mint-ui/lib/style.css'
+import {Button} from 'mint-ui'
 import './mock/mockServer'
 
-//Vue.config.productionTip = false
-Vue.use(MintUI)
+Vue.component(Button.name, Button)
 
+Vue.config.productionTip = false
 new Vue({
   el: '#app',
   render:h => h(App),
   router,
   store
 })
+

@@ -4,6 +4,7 @@
 export default {
   address:'',
   categorys:[],
-  shops:[]
+  shops:[],
+  userInfo:{}
 }
 

@@ -37,6 +37,7 @@
 
 <script type="text/ecmascript-6">
   import { MessageBox } from 'mint-ui'
+  import {reqSendCode,reqSmsLogin,reqPwdLogin} from '../../api'
 
   export default {
     data(){
@@ -58,32 +59,70 @@
       }
     },
     methods:{
-      getCode(){
+      async getCode(){
         if(!this.computeTime){
           this.computeTime = 30
-          const intervalId = setInterval(() => {
+          this.intervalId = setInterval(() => {
             this.computeTime--
             if(this.computeTime<=0){
-              clearInterval(intervalId)
+              clearInterval(this.intervalId)
             }
           },1000)
+
+          //发送ajax请求
+          const result = await reqSendCode(this.phone)
+          console.log(result)
+          if(result.code === 1){
+            //显示提示
+            MessageBox('提示',result.msg)
+            //停止倒计时
+            if(this.computeTime){
+              this.computeTime = 0
+              clearInterval(this.intervalId)
+              this.intervalId = null
+            }
+          }
         }
       },
-      login(){
+      async login(){
+        let result
         if(this.loginWay){
           const {rightPhone,phone,code} = this
           if(!this.rightPhone){
             MessageBox('提示', '手机号不正确')
+            return
           }else if(!/^\d{6}$/.test(code)){
             MessageBox('提示', '验证码6位数字')
+            return
           }
+          result = await reqSmsLogin(phone,code)
         }else{
           const {name,pwd} = this
           if(!this.name){
             MessageBox('提示', '用户名必须指定')
+            return
           }else if(!this.pwd){
             MessageBox('提示', '密码必须指定')
+            return
           }
+          result = await reqPwdLogin(name,pwd)
+        }
+        //停止计时
+        if(this.computeTime){
+          this.computeTime = 0
+          clearInterval(this.intervalId)
+          this.intervalId = null
+        }
+        //结果处理
+        if(result.code === 0){
+          const user = result.data
+          //将user保存到vuex的state
+          this.$store.dispatch('recordUser',user)
+          //去个人中心
+          this.$router.replace('/profile')
+        }else{
+          const msg = result.msg
+          MessageBox('提示',msg)
         }
       }
     }

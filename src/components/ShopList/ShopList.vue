@@ -1,6 +1,6 @@
 <template>
   <section>
-    <div class="list" v-for="(shop,index) in shops" v-if="shops.length">{{shop}}</div>
+    <div class="list" v-for="(shop,index) in shops" :key="index" v-if="shops.length" @click="$router.push('/shop')">{{shop}}</div>
     <div v-else>加载中...</div>
   </section>
 </template>

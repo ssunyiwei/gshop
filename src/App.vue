@@ -13,9 +13,22 @@
     mounted(){
       //this.$store.dispatch('getAddress')
       this.getAddress()
+      console.log(this.getCookie('_id'))
+      Boolean(this.getCookie('_id')) && this.getUserInfo()
     },
     methods:{
-        ...mapActions(['getAddress'])
+      ...mapActions(['getAddress','getUserInfo']),
+      //获取cookie
+      getCookie(cname){
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i<ca.length; i++)
+        {
+          var c = ca[i].trim();
+          if (c.indexOf(name)==0) return c.substring(name.length,c.length);
+        }
+        return "";
+      }
     },
     components:{
       FooterGuide

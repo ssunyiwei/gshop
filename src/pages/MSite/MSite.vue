@@ -1,8 +1,12 @@
 <template>
   <section>
     <headerTop :title="address">
-      <span class="left" slot="left">搜索</span>
-      <span class="right" slot="right">登录/注册</span>
+      <router-link slot="left" to="/search">
+        <span class="left">搜索</span>
+      </router-link>
+      <router-link slot="right" :to="userInfo._id ? '/userinfo' : '/login'">
+        <span class="right">{{userInfo.name || '登录/注册'}}</span>
+      </router-link>
     </headerTop>
     <nav>
       <div class="swiper-container" v-if="categorys.length">
@@ -35,7 +39,7 @@
       this.$store.dispatch('getShops')
     },
     computed:{
-      ...mapState(['address','categorys']),
+      ...mapState(['address','categorys','userInfo']),
       categorysArr(){
         const {categorys} = this
         const arr = []
